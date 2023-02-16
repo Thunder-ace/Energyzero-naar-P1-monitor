@@ -15,20 +15,10 @@ async def main() -> None:
                 # print average price ex and incl.
                 print(gas_today.average_price)
                 print(round(gas_today.average_price + 0.67541, 2))
-                # make record for json file
-                #result = {
-                #    "1" : today.strftime('%d-%m-%Y'),
-                #    "2" : ("{:.2f}".format(gas_today.average_price)),
-                #    "3" : ("{:.2f}".format(gas_today.average_price + 0.67541))
-                #}
             except:
                 gas_today = None
                 today     = today - datetime.timedelta(days=1)
             pass
-        # save json record
-        # with open('/home/rcbleeker/conky/gas.json', 'w') as f:
-        #         json.dump(result, f)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
