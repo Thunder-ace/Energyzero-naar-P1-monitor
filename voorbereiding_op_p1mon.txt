@@ -18,7 +18,7 @@ Voeg aan de crontab op p1mon toe                    : p1mon@p1monitor(eth0=192.1
 
     0 16 * * * /usr/bin/python3 /p1mon/scripts/update.py >> /p1mon/var/tmp/update.log 2>&1 # Energyzero_Update
 
-    Deze regel start update.py op elke dag om 16:00 uur (een uur na Energyzero updates) en haalt de gemiddelde gas prijs op stroom en gas en er wordt in /p1mon/var/temp een logfile aangemaakt waar het proces wordt vermeld en eventueel als het fout gaat. Tekst voorbeeld update.log : 
+    Deze regel start update.py op elke dag om 16:00 uur (een uur na Energyzero updates) en haalt de gemiddelde prijs op voor stroom en gas en er wordt in /p1mon/var/temp een logfile aangemaakt waar het proces wordt vermeld en eventueel als het fout gaat. Tekst voorbeeld update.log : 
     
     Internet is bereikbaar.
     0.33
