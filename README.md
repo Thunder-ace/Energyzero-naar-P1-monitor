@@ -7,7 +7,7 @@ OPMERKING : Lees eerst voorbereiding_op_p1mon.txt
 
 # Energyzero prices to P1 monitor
 
-mport the average daily price for electricity and gas from Energyzero to P1 monitor.
+Import the average daily price for electricity and gas from Energyzero to P1 monitor.
 
 Tested on P1 MONITOR VERSION 20221105 - 2.1
 
