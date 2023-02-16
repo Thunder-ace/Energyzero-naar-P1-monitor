@@ -1,0 +1,34 @@
+Preparation:
+
+Log in to the P1 monitor: sudo ssh p1mon@192.168.1.21
+
+Check Python version: p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ python --version
+
+Python version should be: Python 3.9.2
+
+Install energyzero module: p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ pip install energyzero
+
+Copy the following files to /p1mon/scripts:
+
+  update.py
+  gas.py
+  stroom.py
+
+Add the next line to crontab on p1mon: p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ crontab -e
+
+  0 16 * * * /usr/bin/python3 /p1mon/scripts/update.py >> /p1mon/var/tmp/update.log 2>&1 # Energyzero_Update
+
+This line runs update.py every day at 4:00 pm (one hour after Energyzero updates) and retrieves the average price for electricity and gas. 
+A logfile is created in /p1mon/var/temp to record the process and any errors. Example text from update.log:
+
+  Internet is accessible.
+  0.33
+  1.32
+  ~/p1mon/mnt/ramdisk/config.db updated with Energyzero prices.
+  ~/p1mon/data/config.db updated with Energyzero prices.
+  Energyzero update successful on: 16-02-2023 - 11:00:04
+
+That's it!
+
+Oh, I do this for a hobby and my knowledge is limited. Updates to make things more robust are welcome. 
+Sorry if the code is not professional, but it works for me :-)
