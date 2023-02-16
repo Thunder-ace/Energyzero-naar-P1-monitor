@@ -1,6 +1,5 @@
 import asyncio
 import datetime
-#import json
 import pytz
 from energyzero import EnergyZero
 
