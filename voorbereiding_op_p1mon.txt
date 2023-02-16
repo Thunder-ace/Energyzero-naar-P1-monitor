@@ -1,0 +1,27 @@
+Voorbereiding :
+
+Log in op de P1 monitor                             : sudo ssh p1mon@192.168.1.21
+
+Check Python versie                                 : p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ python --version
+
+Python versie moet zijn                             : Python 3.9.2
+
+Installeer energyzero module                        : p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ pip install energyzero
+
+Kopieer de volgende bestanden naar /p1mon/scripts
+
+    update.py
+    gas.py
+    stroom.py
+
+Voeg aan de crontab op p1mon toe                    : p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ crontab -3
+
+    0 16 * * * /usr/bin/python3 /p1mon/scripts/update.py >> /p1mon/var/tmp/update.log 2>&1 # Energyzero_Update
+
+    Deze regel start update.py op elke dag op 16:00 uur (een uur na Energyzero updates) en haalt de gemiddelde gas prijs op stroom en gas.
+
+Thats it ! 
+
+O ja, ik doe dit voor de hobby en mijn kennis gelimiteerd. Updates om e.e.a. robuust te maken zijn welkom. Excuses als de code niet profesioneel is, maar bij mij werkt het :-))
+
+
