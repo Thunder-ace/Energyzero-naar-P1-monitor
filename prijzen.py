@@ -7,7 +7,7 @@ import sqlite3
 from energyzero import EnergyZero
 
 wan_connected = False
-# Check of internet bereikbaar is
+# Check for internet connection
 while not wan_connected:
     try:
         ping_output = subprocess.check_output(['ping', '-4', '-c', '1', '-w', '2', '208.67.222.222'])
