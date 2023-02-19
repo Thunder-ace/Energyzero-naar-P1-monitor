@@ -73,8 +73,8 @@ async def main() -> None:
                 exit()
 
         try:
-            current_electric = current_electric + 0.17364   # add additional extra costs
-            current_gas      = current_gas + 0.67541        # add additional extra costs
+            current_electric = round(current_electric + 0.17364, 5)   # add additional extra costs
+            current_gas      = round(current_gas + 0.67541, 5)        # add additional extra costs
             set_price(current_electric, current_gas)
             print('Stroom prijs all inclusief : ' + str(current_electric))
             print('Gas prijs    all inclusief : ' + str(current_gas))
