@@ -2,30 +2,29 @@ Voorbereiding :
 
 Log in op de P1 monitor                             : sudo ssh p1mon@192.168.1.21
 
-Check Python versie                                 : p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ python --version
+Check Python versie                                 : p1mon@p1monitor(eth0=192.168.1.21 wlan0=): ~$ python --version
 
 Python versie moet zijn                             : Python 3.9.2
 
-Installeer energyzero module                        : p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ pip install energyzero
+Installeer energyzero module                        : p1mon@p1monitor(eth0=192.168.1.21 wlan0=): ~$ pip install energyzero
 
 Kopieer de volgende bestanden naar /p1mon/scripts
 
-    update.py
-    gas.py
-    stroom.py
+    prijzen.py
 
-Voeg aan de crontab op p1mon toe                    : p1mon@p1monitor(eth0=192.168.1.10 wlan0=): ~$ crontab -3
+Voeg aan de crontab op p1mon toe                    : p1mon@p1monitor(eth0=192.168.1.21 wlan0=): ~$ crontab -3
 
-    0 16 * * * /usr/bin/python3 /p1mon/scripts/update.py >> /p1mon/var/tmp/update.log 2>&1 # Energyzero_Update
+    5 * * * * /usr/bin/python3 /p1mon/scripts/prijzen.py >> /p1mon/var/tmp/update.log 2>&1 # Energyzero_Update
 
-    Deze regel start update.py op elke dag om 16:00 uur (een uur na Energyzero updates) en haalt de gemiddelde prijs op voor stroom en gas en er wordt in /p1mon/var/temp een logfile aangemaakt waar het proces wordt vermeld en eventueel als het fout gaat. Tekst voorbeeld update.log : 
+    Deze regel start prijzen.py op 5 minuten na elk heel uur (een uur na Energyzero updates) en haalt de gemiddelde prijs op voor stroom en gas en er wordt     in /p1mon/var/temp een logfile aangemaakt waar het proces wordt vermeld en eventueel als het fout gaat. Tekst voorbeeld update.log : 
     
-    Internet is bereikbaar.
-    0.33
-    1.32
-    ~/p1mon/mnt/ramdisk/config.db geüpdatet met Energyzero prijzen.
-    ~/p1mon/data/config.db geüpdatet met Energyzero prijzen.
-    Update Energyzero gelukt op : 16-02-2023 - 11:00:04
+  Internet is bereikbaar.
+  0.15
+  1.20
+  ~/p1mon/mnt/ramdisk/config.db updated with Energyzero prices.
+  Energyzero update successful on : 16-02-2023 - 11:00:04
+  Stroom prijs all inclusief      : 0.32364 ( + extra kosten 0.17364)
+  Gas prijs    all inclusief      : 1.87541 ( + extra kosten 0.67541)
 
 Thats it ! 
 
