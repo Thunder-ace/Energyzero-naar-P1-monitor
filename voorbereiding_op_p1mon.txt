@@ -18,13 +18,26 @@ Voeg aan de crontab op p1mon toe                    : p1mon@p1monitor(eth0=192.1
 
     Deze regel start prijzen.py op 5 minuten na elk heel uur (een uur na Energyzero updates) en haalt de gemiddelde prijs op voor stroom en gas en er wordt     in /p1mon/var/temp een logfile aangemaakt waar het proces wordt vermeld en eventueel als het fout gaat. Tekst voorbeeld update.log : 
     
-  Internet is bereikbaar.
-  0.15
-  1.20
-  ~/p1mon/mnt/ramdisk/config.db updated with Energyzero prices.
-  Energyzero update successful on : 16-02-2023 - 11:00:04
-  Stroom prijs all inclusief      : 0.32364 ( + extra kosten 0.17364)
-  Gas prijs    all inclusief      : 1.87541 ( + extra kosten 0.67541)
+    ----------------------------------------------------------------------
+    Internet bereikbaar.
+    ----------------------------------------------------------------------
+    Update Energyzero gelukt op                : 20-02-2023 - 12:05:02
+    Config.db geüpdatet met Energyzero prijzen : Succes .
+    ----------------------------------------------------------------------
+    Stroom prijs                               : € 0.12
+    Inkoopkosten                               : € 0.02118
+    Energiebelasting                           : € 0.15246
+    ODE                                        : € 0.0
+    Stroom prijs inclusief                     : € 0.29364
+    ----------------------------------------------------------------------
+    Prijs teruglevering                        : € 0.12 
+    ----------------------------------------------------------------------
+    Gas prijs                                  : € 0.58
+    Inkoopkosten                               : € 0.08275
+    Energiebelasting                           : € 0.59266
+    ODE                                        : € 0.0
+    Gas prijs inclusief                        : € 1.25541
+    ----------------------------------------------------------------------
 
 Thats it ! 
 
