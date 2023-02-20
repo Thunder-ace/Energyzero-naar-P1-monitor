@@ -14,9 +14,9 @@ Kopieer de volgende bestanden naar /p1mon/scripts
 
 Voeg aan de crontab op p1mon toe                    : p1mon@p1monitor(eth0=192.168.1.21 wlan0=): ~$ crontab -e
 
-    5 * * * * /usr/bin/python3 /p1mon/scripts/prijzen.py >> /p1mon/var/tmp/update.log 2>&1 # Energyzero_Update
+    5 * * * * /usr/bin/python3 /p1mon/scripts/prijzen.py >> /p1mon/var/tmp/update_prijzen_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1; ls -t /p1mon/var/tmp/update_prijzen_*.log | tail -n +25 | xargs rm -f # Energyzero_Update
 
-    Deze regel start prijzen.py op 5 minuten na elk heel uur (een uur na Energyzero updates) en haalt de gemiddelde prijs op voor stroom en gas en er wordt     in /p1mon/var/temp een logfile aangemaakt waar het proces wordt vermeld en eventueel als het fout gaat. Tekst voorbeeld update.log : 
+    Deze regel start prijzen.py op 5 minuten na elk heel uur (een uur na Energyzero updates) en haalt de gemiddelde prijs op voor stroom en gas en er wordt     in /p1mon/var/temp een logfile aangemaakt waar het proces wordt vermeld en eventueel als de fouten gaat. Er worden max 24 logfiles aangelegd (1 per         uur) 
     
     ----------------------------------------------------------------------
     Internet bereikbaar.
