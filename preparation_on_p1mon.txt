@@ -14,18 +14,32 @@ Copy the following files to /p1mon/scripts:
 
 Add the next line to crontab on p1mon: p1mon@p1monitor(eth0=192.168.1.21 wlan0=): ~$ crontab -e
 
-  5 * * * * /usr/bin/python3 /p1mon/scripts/prijzen.py >> /p1mon/var/tmp/update.log 2>&1 # Energyzero_Update
+  5 * * * * /usr/bin/python3 /p1mon/scripts/prijzen.py >> /p1mon/var/tmp/update_prijzen_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1; ls -t /p1mon/var/tmp/update_prijzen_*.log | tail -n +25 | xargs rm -f # Energyzero_Update
 
-This line runs update.py 5 minutes after every hour and retrieves the average price for electricity and gas. 
-A logfile is created in /p1mon/var/temp to record the process and any errors. Example text from update.log:
+This line runs update.py 5 minutes after every hour and retrieves the actual price for electricity and gas. 
+A logfile is created in /p1mon/var/temp to record the process and any errors stores it every hour with a max of 24 log files
+Text strored in logfile :
 
-  Internet is accessible.
-  0.15
-  1.20
-  ~/p1mon/mnt/ramdisk/config.db updated with Energyzero prices.
-  Energyzero update successful on : 16-02-2023 - 11:00:04
-  Stroom prijs all inclusief      : 0.32364 ( + additional costs 0.17364)
-  Gas prijs    all inclusief      : 1.87541 ( + additional costs 0.67541)
+  ----------------------------------------------------------------------
+  Internet bereikbaar.
+  ----------------------------------------------------------------------
+  Update Energyzero gelukt op                : 20-02-2023 - 12:05:02
+  Config.db geüpdatet met Energyzero prijzen : Succes .
+  ----------------------------------------------------------------------
+  Stroom prijs                               : € 0.12
+  Inkoopkosten                               : € 0.02118
+  Energiebelasting                           : € 0.15246
+  ODE                                        : € 0.0
+  Stroom prijs inclusief                     : € 0.29364
+  ----------------------------------------------------------------------
+  Prijs teruglevering                        : € 0.12 
+  ----------------------------------------------------------------------
+  Gas prijs                                  : € 0.58
+  Inkoopkosten                               : € 0.08275
+  Energiebelasting                           : € 0.59266
+  ODE                                        : € 0.0
+  Gas prijs inclusief                        : € 1.25541
+  ----------------------------------------------------------------------
   
 
 That's it!
