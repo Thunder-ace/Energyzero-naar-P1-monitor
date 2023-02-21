@@ -37,31 +37,15 @@ while not validateconnection("one.one.one.one") and attempts < MAX_ATTEMPTS:
     attempts += 1
     if attempts < MAX_ATTEMPTS:
         print(f"Nieuwe poging over 60 seconden (poging {attempts} van {MAX_ATTEMPTS})")
-        time.sleep(5)
+        time.sleep(2)
     else:
         check_wan = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
         print("----------------------------------------------------------------------")
         print(f"Internet niet bereikbaar na {MAX_ATTEMPTS} pogingen.")
         print("Ophalen actuele Energyzero prijzen voor stroom en gas gestopt.")
         print("Er zijn GEEN Energyzero updates verwerkt.")
-        # Get the current time for calculation when next attempt for update
-        check_wan = datetime.datetime.now()
-        # Round down to the nearest whole hour
-        check_wan = check_wan.replace(minute=0, second=0, microsecond=0)
-        # Round up to the next hour
-        if check_wan.minute >= 1:
-            next_hour = check_wan.replace(hour=check_wan.hour + 1)
-        else:
-            next_hour = check_wan
-        # Check if next_hour is on the next day
-        if next_hour.day > check_wan.day:
-            next_hour = next_hour.replace(hour=0)
-        # Add the necessary time to the datetime object
-        check_wan_with_time = next_hour + datetime.timedelta(minutes=5)
-        # Format the datetime object as a string
-        check_wan_with_time_str = check_wan_with_time.strftime("%d-%m-%Y %H:%M:%S")
         print("----------------------------------------------------------------------")
-        print(f"Volgende poging Energyzero update : {check_wan_with_time_str}")
+        print(f"Volgend uur wordt een nieuwe poging gedaan voor de Energyzero update.")
         print("----------------------------------------------------------------------")
         exit()
 
@@ -87,7 +71,8 @@ async def main() -> None:
         try:
             energy_today = await client.energy_prices(start_date=today, end_date=today)
             if energy_today is None or not energy_today.current_price:
-                print('Fout: Geen actuele Energyzero stroom prijs gevonden.')
+                print("Geen actueel Energyzero stroom tarief gevonden.")
+                print("Energyzero stroom tarief in P1-Monitor niet aangepast.")
             else:
                 # ------------------------------------------------------------------------------------------------------
                 # Set Energyzero current price electric
@@ -151,7 +136,8 @@ async def main() -> None:
         try:
             gas_today = await client.gas_prices(start_date=today, end_date=today)
             if gas_today is None or not gas_today.current_price:
-                print('Fout: Geen actuele Energyzero gas prijs gevonden.')
+                print("Geen actueel Energyzero gas tarief gevonden.")
+                print("Energyzero gas tarief in P1-Monitor niet aangepast.")
             else:
                 # ------------------------------------------------------------------------------------------------------
                 # Set Energyzero current price electric
@@ -181,6 +167,7 @@ async def main() -> None:
                     cursor.execute(sql_update_query_15)
                     sqlite_connection.commit()
                     print('Energyzero gas /p1mon/data/config.db update           : Succes !')
+
         except Exception as e_gas:
             print()
             print("! Fout bij het updaten van config.db met de Energyzero gas prijs.")
