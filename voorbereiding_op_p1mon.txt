@@ -1,6 +1,6 @@
 Voorbereiding :
 
-Log in op de P1 monitor                             : sudo ssh p1mon@192.168.1.21
+Log in op de P1 monitor                             : sudo ssh p1mon@192.168.1.21       <---- vervang met eigen ip
 
 Check Python versie                                 : p1mon@p1monitor(eth0=192.168.1.21 wlan0=): ~$ python --version
 
