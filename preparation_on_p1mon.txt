@@ -16,9 +16,7 @@ Add the next line to crontab on p1mon: p1mon@p1monitor(eth0=192.168.1.21 wlan0=)
 
   5 * * * * /usr/bin/python3 /p1mon/scripts/prijzen.py >> /p1mon/var/tmp/update_prijzen_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1; ls -t /p1mon/var/tmp/update_prijzen_*.log | tail -n +25 | xargs rm -f # Energyzero_Update
 
-This line runs update.py 5 minutes after every hour and retrieves the actual price for electricity and gas. 
-A logfile is created in /p1mon/var/temp to record the process and any errors stores it every hour with a max of 24 log files
-Text strored in logfile :
+This line starts the "prijzen.py" script 5 minutes after every full hour, retrieves the current prices for electricity and gas, and processes them. A logfile is created in "/p1mon/var/temp" that indicates the progress of the process and any errors that may occur. A maximum of 24 logfiles are created (1 per hour).
 
   ----------------------------------------------------------------------
   Internet bereikbaar.
