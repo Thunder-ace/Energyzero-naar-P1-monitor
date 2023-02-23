@@ -37,7 +37,7 @@ while not validateconnection("one.one.one.one") and attempts < MAX_ATTEMPTS:
     attempts += 1
     if attempts < MAX_ATTEMPTS:
         print(f"Nieuwe poging over 60 seconden (poging {attempts} van {MAX_ATTEMPTS})")
-        time.sleep(60)
+        time.sleep(2)
     else:
         check_wan = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
         print("----------------------------------------------------------------------")
@@ -58,13 +58,13 @@ async def main() -> None:
         energy_today       = None
         gas_today          = None
         current_electric   = None           # electricity price incl. VAT
-        inkoopkosten_e     = 0.02118        # electricity surcharges (change if needed)
-        energiebelasting_e = 0.15246        # gas surcharges (change if needed)
-        ode_e              = 0.00           # gas surcharges (change if needed)
+        inkoopkosten_e     = 0.02118        # electricity surcharges    (change if needed)
+        energiebelasting_e = 0.15246        # gas surcharges            (change if needed)
+        ode_e              = 0.00           # gas surcharges            (change if needed)
         current_gas        = None           # gas price inl. VAT
-        inkoopkosten_g     = 0.08275        # gas surcharges (change if needed)
-        energiebelasting_g = 0.59266        # gas surcharges (change if needed)
-        ode_g              = 0.00           # gas surcharges (change if needed)
+        inkoopkosten_g     = 0.08275        # gas surcharges            (change if needed)
+        energiebelasting_g = 0.59266        # gas surcharges            (change if needed)
+        ode_g              = 0.00           # gas surcharges            (change if needed)
         # --------------------------------------------------------------------------------------------------------------
         # get actual price(s) for electricity
         # --------------------------------------------------------------------------------------------------------------
@@ -89,41 +89,27 @@ async def main() -> None:
                 print('----------------------------------------------------------------------')
                 print(f'Prijs teruglevering                                   : € {current_electric} ')
                 print('----------------------------------------------------------------------')
+
                 # Update config.db in /p1mon/mnt/ramdisk/
                 with sqlite3.connect("/p1mon/mnt/ramdisk/config.db") as sqlite_connection:
                     cursor = sqlite_connection.cursor()
-                    sql_update_query_01 = """update config set PARAMETER='""" + str(
-                        replace_electric) + """',LABEL='Verbruik tarief elektriciteit dal in euro.' where ID='1';"""
-                    sql_update_query_02 = """update config set PARAMETER='""" + str(
-                        replace_electric) + """',LABEL='Verbruik tarief elektriciteit piek in euro.' where ID='2';"""
-                    sql_update_query_03 = """update config set PARAMETER='""" + str(
-                        replace_solar) + """',LABEL='Geleverd tarief elektriciteit dal in euro.' where ID='3';"""
-                    sql_update_query_04 = """update config set PARAMETER='""" + str(
-                        replace_solar) + """',LABEL='Geleverd tarief elektriciteit piek in euro.' where ID='4';"""
-                    cursor.execute(sql_update_query_01)
-                    cursor.execute(sql_update_query_02)
-                    cursor.execute(sql_update_query_03)
-                    cursor.execute(sql_update_query_04)
-                    sqlite_connection.commit()
-                    print('Energyzero stroom /p1mon/mnt/ramdisk/config.db update : Succes !')
+                    for id, value in [(1, replace_electric), (2, replace_electric), (3, current_electric), (4, current_electric)]:
+                        sql_update_query = """UPDATE config SET PARAMETER='{}' WHERE ID='{}';""".format(str(value), str(id))
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+
+                print('Energyzero stroom /p1mon/mnt/ramdisk/config.db update : Succes !')
 
                 # Update config.db in /p1mon/data/
                 with sqlite3.connect("/p1mon/data/config.db") as sqlite_connection:
                     cursor = sqlite_connection.cursor()
-                    sql_update_query_01 = """update config set PARAMETER='""" + str(
-                        replace_electric) + """',LABEL='Verbruik tarief elektriciteit dal in euro.' where ID='1';"""
-                    sql_update_query_02 = """update config set PARAMETER='""" + str(
-                        replace_electric) + """',LABEL='Verbruik tarief elektriciteit piek in euro.' where ID='2';"""
-                    sql_update_query_03 = """update config set PARAMETER='""" + str(
-                        replace_solar) + """',LABEL='Geleverd tarief elektriciteit dal in euro.' where ID='3';"""
-                    sql_update_query_04 = """update config set PARAMETER='""" + str(
-                        replace_solar) + """',LABEL='Geleverd tarief elektriciteit piek in euro.' where ID='4';"""
-                    cursor.execute(sql_update_query_01)
-                    cursor.execute(sql_update_query_02)
-                    cursor.execute(sql_update_query_03)
-                    cursor.execute(sql_update_query_04)
-                    sqlite_connection.commit()
-                    print('Energyzero stroom /p1mon/data/config.db update        : Succes !')
+                    for id, value in [(1, replace_electric), (2, replace_electric), (3, current_electric), (4, current_electric)]:
+                        sql_update_query = """UPDATE config SET PARAMETER='{}' WHERE ID='{}';""".format(str(value), str(id))
+                        cursor.execute(sql_update_query)
+                        sqlite_connection.commit()
+
+                print('Energyzero stroom /p1mon/data/config.db update        : Succes !')
+                    
         except Exception as e_stroom:
             print()
             print("! Fout bij het updaten van config.db met de Energyzero stroom prijs.")
@@ -155,18 +141,20 @@ async def main() -> None:
                 # Update config.db in /p1mon/mnt/ramdisk/
                 with sqlite3.connect("/p1mon/mnt/ramdisk/config.db") as sqlite_connection:
                     cursor = sqlite_connection.cursor()
-                    sql_update_query_15 = """update config set PARAMETER='""" + str(replace_gas) + """',LABEL='Verbruik tarief gas in euro.' where ID='15';"""
+                    sql_update_query_15 = """UPDATE config SET PARAMETER='{}' WHERE ID='15';""".format(str(replace_gas))
                     cursor.execute(sql_update_query_15)
                     sqlite_connection.commit()
-                    print('Energyzero gas /p1mon/mnt/ramdisk/config.db update    : Succes !')
+
+                print('Energyzero gas /p1mon/mnt/ramdisk/config.db update    : Succes !')
 
                 # Update config.db in /p1mon/data/
-                with sqlite3.connect("/p1mon/data/config.db") as sqlite_connection:
+                with sqlite3.connect("/p1mon/mnt/ramdisk/config.db") as sqlite_connection:
                     cursor = sqlite_connection.cursor()
-                    sql_update_query_15 = """update config set PARAMETER='""" + str(replace_gas) + """',LABEL='Verbruik tarief gas in euro.' where ID='15';"""
+                    sql_update_query_15 = """UPDATE config SET PARAMETER='{}' WHERE ID='15';""".format(str(replace_gas))
                     cursor.execute(sql_update_query_15)
                     sqlite_connection.commit()
-                    print('Energyzero gas /p1mon/data/config.db update           : Succes !')
+                    
+                print('Energyzero gas /p1mon/data/config.db update           : Succes !')
 
         except Exception as e_gas:
             print()
