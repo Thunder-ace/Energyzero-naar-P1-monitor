@@ -83,9 +83,9 @@ async def main() -> None:
         gas_today          = None
         current_electric   = None           # electricity price incl. VAT
         inkoopkosten_e     = 0.02118        # electricity surcharges    (change if needed)
-        energiebelasting_e = 0.15246        # gas surcharges            (change if needed)
-        ode_e              = 0.00           # gas surcharges            (change if needed)
-        current_gas        = None           # gas price inl. VAT
+        energiebelasting_e = 0.15246        # electricity surcharges    (change if needed)
+        ode_e              = 0.00           # electricity surcharges    (change if needed)
+        current_gas        = None           # gas price incl. VAT
         inkoopkosten_g     = 0.08275        # gas surcharges            (change if needed)
         energiebelasting_g = 0.59266        # gas surcharges            (change if needed)
         ode_g              = 0.00           # gas surcharges            (change if needed)
