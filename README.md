@@ -13,7 +13,7 @@ with sqlite3.connect(“/p1mon/data/config.db”) as sqlite_connection: Als voor
 
 De code ziet er netjes uit, mijn complimenten. Als er voldoende vraag naar is en je staat het toe dan kan het een standaard onderdeel worden van de p1 monitor software.
 
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 # Energyzero prices to P1 monitor
 
@@ -22,5 +22,14 @@ Import the actual price for electricity and gas from Energyzero to P1 monitor.
 Tested on P1 MONITOR VERSION 20221105 - 2.1
 
 NOTE: Please read voorbereiding_op_p1mon.txt first.
+
+--------------------------------------------------------------------------------
+
+Response from Security Brother / ztatz.nl:
+
+In the code, you also update /p1mon/data/config.db. This is not necessary as the data from the RAM database is automatically copied by 
+the P1 software with sqlite3.connect("/p1mon/data/config.db") as sqlite_connection. So, this example is not needed.
+
+The code looks neat, my compliments. If there is enough demand and you allow it, it could become a standard part of the P1 monitor software.
 
 --------------------------------------------------------------------------------
