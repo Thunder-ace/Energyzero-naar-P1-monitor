@@ -100,16 +100,13 @@ async def main() -> None:
 
                 print('Energyzero stroom /p1mon/mnt/ramdisk/config.db update : Succes !')
 
-                # Update config.db in /p1mon/data/
-                with sqlite3.connect("/p1mon/data/config.db") as sqlite_connection:
-                    cursor = sqlite_connection.cursor()
-                    for id, value in [(1, replace_electric), (2, replace_electric), (3, current_electric), (4, current_electric)]:
-                        sql_update_query = """UPDATE config SET PARAMETER='{}' WHERE ID='{}';""".format(str(value), str(id))
-                        cursor.execute(sql_update_query)
-                        sqlite_connection.commit()
+                # ------------------------------------------------------------------------------------------------------
+                #  Update config.db in /p1mon/data/
+                #  code for update in config.db is not needed, comment from ztatz.nl :
+                #  "This is not necessary because the data from the RAM database is automatically copied by
+                #  the P1 software." Thanks to Security Brother / ztatz.nl
+                # ------------------------------------------------------------------------------------------------------
 
-                print('Energyzero stroom /p1mon/data/config.db update        : Succes !')
-                    
         except Exception as e_stroom:
             print()
             print("! Fout bij het updaten van config.db met de Energyzero stroom prijs.")
@@ -147,14 +144,12 @@ async def main() -> None:
 
                 print('Energyzero gas /p1mon/mnt/ramdisk/config.db update    : Succes !')
 
-                # Update config.db in /p1mon/data/
-                with sqlite3.connect("/p1mon/mnt/ramdisk/config.db") as sqlite_connection:
-                    cursor = sqlite_connection.cursor()
-                    sql_update_query_15 = """UPDATE config SET PARAMETER='{}' WHERE ID='15';""".format(str(replace_gas))
-                    cursor.execute(sql_update_query_15)
-                    sqlite_connection.commit()
-                    
-                print('Energyzero gas /p1mon/data/config.db update           : Succes !')
+                # ------------------------------------------------------------------------------------------------------
+                #  Update config.db in /p1mon/data/
+                #  code for update in config.db is not needed, comment from ztatz.nl :
+                #  "This is not necessary because the data from the RAM database is automatically copied by
+                #   the P1 software." Thanks to Security Brother / ztatz.nl
+                # ------------------------------------------------------------------------------------------------------
 
         except Exception as e_gas:
             print()
