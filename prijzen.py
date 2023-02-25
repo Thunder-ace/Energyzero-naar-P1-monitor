@@ -61,7 +61,7 @@ while not validateconnection("one.one.one.one") and attempts < MAX_ATTEMPTS:
     attempts += 1
     if attempts < MAX_ATTEMPTS:
         print(f"Nieuwe poging over 60 seconden (poging {attempts} van {MAX_ATTEMPTS})")
-        time.sleep(2)
+        time.sleep(60)
     else:
         check_wan = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
         print("----------------------------------------------------------------------")
