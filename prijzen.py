@@ -1,3 +1,9 @@
+# Addon to use dynamic energy prices for the P1-Monitor software from ztatz.nl
+#
+# History:
+# 1.0.0   01-02-2023  Initial version
+# 1.0.1   26-02-2023  Check connection to internet updated.
+
 """
 Copyright (c) 2023 by R.C.Bleeker
 
@@ -25,27 +31,44 @@ import datetime
 import socket
 import time
 import sqlite3
-# Energyzero module : pip install energyzero
 from energyzero import EnergyZero
 
 
-def validateconnection(host: str):
+def validate_connection(host: str) -> bool:
     try:
-        dnslookup: tuple = socket.gethostbyname_ex(host.strip())
-        if dnslookup[-1]:
-            ipaddress: str = dnslookup[-1][0]
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                sock.settimeout(1.0)
-                result: int = sock.connect_ex((ipaddress, 53))
-                if result == 0:
-                    check_timestamp = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
-                    print("----------------------------------------------------------------------")
-                    print(f"{check_timestamp} : Internet verbinding !")
-                    return True
-    except:
+        # Perform DNS lookup to get IP address
+        ip_addresses = socket.gethostbyname_ex(host.strip())[-1]
+        if ip_addresses:
+            # Try to connect to port (e.g. 53 for DNS)
+            for ip_address in ip_addresses:
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                    sock.settimeout(1.0)
+                    result = sock.connect_ex((ip_address, 53))
+                    if result == 0:
+                        # Connection success, so internet is reachable
+                        check_timestamp = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
+                        print("----------------------------------------------------------------------")
+                        print(f"{check_timestamp} : Internet verbinding actief !")
+                        return True
+        # If no connections, internet is not reachable
+        check_timestamp = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
+        print("----------------------------------------------------------------------")
+        print(f"{check_timestamp} : Geen internet verbinding!")
+    except socket.gaierror:
         check_timestamp = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
         print("----------------------------------------------------------------------")
         print(f"{check_timestamp} : Geen internet verbinding !")
+        print("Error : Hostname could not be resolved, so assume internet is not reachable.")
+    except socket.timeout:
+        check_timestamp = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
+        print("----------------------------------------------------------------------")
+        print(f"{check_timestamp} : Geen internet verbinding !")
+        print("Error : Connection timed out, so assume internet is not reachable")
+    except Exception as e:
+        check_timestamp = datetime.datetime.now().strftime("%d-%m-%Y - %H:%M:%S")
+        print("----------------------------------------------------------------------")
+        print(f"{check_timestamp} : Geen internet verbinding !")
+        print(f"Error : {e}")
     return False
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -57,7 +80,7 @@ def validateconnection(host: str):
 
 MAX_ATTEMPTS = 5
 attempts = 0
-while not validateconnection("one.one.one.one") and attempts < MAX_ATTEMPTS:
+while not validate_connection("one.one.one.one") and attempts < MAX_ATTEMPTS:
     attempts += 1
     if attempts < MAX_ATTEMPTS:
         print(f"Nieuwe poging over 60 seconden (poging {attempts} van {MAX_ATTEMPTS})")
@@ -110,6 +133,10 @@ async def main() -> None:
                 print(f'Energiebelasting                                      : € {energiebelasting_e}')
                 print(f'ODE                                                   : € {ode_e}')
                 print(f'Stroom prijs inclusief                                : € {replace_electric}')
+                # ------------------------------------------------------------------------------------------------------
+                # It's assumed that the price for delivery of the solar panels per kW is only incl VAT
+                # and without the extra surcharges (change if needed)
+                # ------------------------------------------------------------------------------------------------------
                 print('----------------------------------------------------------------------')
                 print(f'Prijs teruglevering                                   : € {current_electric} ')
                 print('----------------------------------------------------------------------')
