@@ -1,6 +1,6 @@
 # Addon to use dynamic energy prices for the P1-Monitor software from ztatz.nl with code for a kind of ""salderen"
 #
-# setup as prijzen.py only crontab needs to be updated :
+# setup as prijzen.py (do NOT use both) only crontab needs to be updated :
 # 5 * * * * /usr/bin/python3 /p1mon/scripts/prijzen_salderen.py >> /p1mon/var/tmp/update_prijzen_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1; ls -t /p1mon/var/tmp    /update_prijzen_*.log | tail -n +25 | xargs rm -f # Energyzero_Update
 #
 # History:
