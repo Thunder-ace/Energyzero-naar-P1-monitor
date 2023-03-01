@@ -1,5 +1,7 @@
 # script to install prijzen.py automated
 #
+# MAAK ALTIJD EERST EEN BACKUP VAN DE P1 Monitor  !!!!
+#
 # automatisch installeren van de prijzen.py OF prijzen_salderen.py voor P1 Monitor en de dynamische prijzen add-on
 # WEL een paar zaken aanpassen (zie opmerkingen in code) !!!
 #
