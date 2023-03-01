@@ -4,6 +4,11 @@ Importeer de actuele prijs voor elektra en gas van Energyzero naar P1 monitor
 Getest op P1 MONITOR VERSIE 20221105 – 2.1
 
 OPMERKING : Lees eerst voorbereiding_op_p1mon.txt
+
+Toegevoegd installatie script : in terminal run : python3 install.py
+Zorg dat prijzen.py of prijzen_salderen.py in dezelfde map staat als install.py
+Lees de opmerkingen in het script en pas aan waar nodig.
+
 --------------------------------------------------------------------------------
 
 Reactie van Security Brother / ztatz.nl 
